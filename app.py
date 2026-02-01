@@ -3,7 +3,7 @@ import pandas as pd
 
 # Configure page (centered layout, not wide)
 st.set_page_config(
-    page_title="Cellmarker Annotation App",
+    page_title="Cell Type Anno",
     page_icon="assets/cellmarker_anno_logo-3.png",
     layout="centered"
 )
@@ -20,8 +20,53 @@ def load_data():
 
 
 def main():
-    st.title("Cellmarker Annotation App")
-    st.write("Query cell marker information from the CellMarker database.")
+    st.title("🔍 Cell Type Annotation Tool")
+    st.write("""
+    **基于文献等证据的cell type注释与marker探索的交互式平台**。
+    该工具帮助研究者快速识别、筛选并验证细胞类型注释marker，并提供可追溯的文献支持。
+    """)
+    
+    st.info("""
+    **核心功能**
+    - 基于证据数量排序的cell type及其marker
+    - 可直接复制细胞类型注释代码(R、Python)
+    - 直达原始文献的PMID链接
+    """)
+
+    # ---- Workflow Overview ----
+    st.markdown("### ⚙️ How It Works")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("**1️⃣ Marker探索**")
+        st.write("""
+        选择物种及组织类型，探索cell type及其marker全景图，
+        结果默认按照证据数量数量进行排序，
+        快速识别高置信度且常用的cell type及其marker。
+        """)
+
+    with col2:
+        st.markdown("**2️⃣ 获取marker清单代码**")
+        st.write(""" 
+        设置证据数量阈值筛选高置信度marker，
+        一键导出R(如Seurat)、Python(如Scanpy)可直接使用的marker 清单代码。
+        """)
+
+    with col3:
+        st.markdown("**3️⃣ 文献证据追溯**")
+        st.write("""
+        查看每个marker与cell type关系的原始文献证据。
+        点击PMID可跳转至对应论文，并查看详细证据信息，
+        确保细胞类型注释具有可解释性与可重复性。
+        """)
+
+    # ---- Research Disclaimer ----
+    st.warning("""
+    本工具仅用于科研用途。  
+    细胞类型注释结果应结合实验验证和生物学背景进行解释。
+    """)
+
 
     # Load data
     with st.spinner("Loading data..."):
@@ -31,7 +76,7 @@ def main():
     # Section 1: Filter by species and tissue_class
     # ============================================================
     st.divider()
-    st.header("Section 1: Filter by Species and Tissue Class")
+    st.header("Section 1: Marker Knowledge Overview")
 
     col1, col2 = st.columns(2)
 
@@ -106,13 +151,13 @@ def main():
     # Section 2: Filter by count threshold and display code
     # ============================================================
     st.divider()
-    st.header("Section 2: Filter by Count Threshold")
+    st.header("Section 2: Annotation Toolkit")
 
     # Get max count for slider range
     max_count = int(df_grouped["#Evidence"].max())
 
     count_threshold = st.slider(
-        "Count Threshold", min_value=1, max_value=max_count, value=3, step=1
+        "#Evidence Threshold", min_value=1, max_value=max_count, value=3, step=1
     )
 
     # Filter by count threshold (using new column name "#Evidence")
@@ -160,7 +205,7 @@ def main():
     # Section 3: Filter raw data by cell_name and marker (cascading)
     # ============================================================
     st.divider()
-    st.header("Section 3: Filter Raw Data by Cell Name and Marker")
+    st.header("Section 3: Literature Evidence Explorer")
 
     # Filter original raw data by Section 1's Cell type and Marker (using new column names)
     section1_cell_names = df_grouped["Cell type"].dropna().unique()
