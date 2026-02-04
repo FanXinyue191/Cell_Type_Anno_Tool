@@ -1,6 +1,6 @@
-# Cellmarker Annotation App
+# Cell Type Annotation Tool
 
-A Streamlit-based web application for querying and exploring cell marker information from the CellMarker database.
+A Streamlit-based web application for querying and exploring cell marker information from the CellMarker2.0 database.
 
 ## Overview
 

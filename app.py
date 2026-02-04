@@ -25,16 +25,21 @@ def main():
     👋欢迎使用本工具！这是一个**基于文献等证据的cell type注释与marker探索的交互式平台**。
     该工具帮助研究者快速识别、筛选并验证细胞类型注释marker，并提供可追溯的文献支持。
     """)
-    
+
     st.info("""
     **核心功能**
     - 基于证据数量排序的cell type及其marker
     - 可直接复制细胞类型注释代码(R、Python)
     - 直达原始文献的PMID链接
     """)
+    
+    st.markdown("""
+    #### 数据来源
+    本工具使用的数据来源于 [CellMarker 2.0](http://www.bio-bigdata.center/) 数据库，并手工补全缺失的信息，具体过程见文档[整合流程](http://xxx)。未来将整合更多数据库资源，敬请期待...
+    """)
 
     # ---- Workflow Overview ----
-    st.markdown("### ⚙️ How It Works")
+    st.markdown("#### How It Works")
 
     col1, col2, col3 = st.columns(3)
 
@@ -76,7 +81,7 @@ def main():
     # Section 1: Marker探索
     # ============================================================
     st.divider()
-    st.header("Section 1: Marker探索")
+    st.header("1️⃣ Marker探索")
 
     col1, col2, col3 = st.columns(3)
 
@@ -175,7 +180,7 @@ def main():
     # Section 2: 获取marker清单代码
     # ============================================================
     st.divider()
-    st.header("Section 2: 获取marker清单代码")
+    st.header("2️⃣ 获取marker清单代码")
 
     # Get max count for slider range
     max_count = int(df_grouped["#Evidence"].max())
@@ -236,7 +241,7 @@ def main():
     # Section 3: 文献证据追溯
     # ============================================================
     st.divider()
-    st.header("Section 3: 文献证据追溯")
+    st.header("3️⃣ 文献证据追溯")
 
     # Filter original raw data by Section 1's Cell type and Marker (using new column names)
     section1_cell_names = df_grouped["Cell type"].dropna().unique()
@@ -675,6 +680,14 @@ def main():
     else:
         if len(df_result) == 0:
             st.info("No data to display")
+
+    # 在页面底部添加创建者信息
+    st.markdown("---")  # 分隔线
+    st.markdown("""
+    ### 由以下创建者团队创建
+    - **Xinyue**: fanxinyue191@gmail.com
+    - **神秘人Ender**
+    """, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
