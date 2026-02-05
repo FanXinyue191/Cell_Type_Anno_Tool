@@ -2,11 +2,12 @@ import streamlit as st
 import pandas as pd
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, JsCode
 
-# Configure page (centered layout, not wide)
+# Configure page (set up layout)
 st.set_page_config(
     page_title="Cell Type Anno",
     page_icon="assets/cellmarker_anno_logo-3.png",
-    layout="centered"
+    # layout="centered"   # 默认，页面内容居中，左右留白
+    layout="wide"       # 宽屏模式，占满浏览器宽度
 )
 
 # Path to the CellMarker database
