@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
+from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, JsCode
 
 # Configure page (set up layout)
 st.set_page_config(
@@ -67,6 +67,7 @@ def create_aggrid_config(df, enable_selection=False, selection_mode='single', li
                             this.eGui.style.textDecoration = 'none';
                             this.eGui.style.color = '#1f77b4';
                             this.eGui.style.cursor = 'pointer';
+                            this.eGui.style.userSelect = 'text';  // 允许选择文本用于复制
                         }
                         getGui() {
                             return this.eGui;
@@ -89,6 +90,8 @@ def create_aggrid_config(df, enable_selection=False, selection_mode='single', li
     gb.configure_grid_options(
         domLayout='normal',
         suppressHorizontalScroll=False,  # 启用横向滚动
+        enableRangeSelection=True,       # 启用范围选择，允许复制
+        enableCellTextSelection=True,    # 启用单元格文本选择
     )
 
     return gb.build()
